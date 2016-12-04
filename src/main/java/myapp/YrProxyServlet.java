@@ -27,9 +27,20 @@ import java.util.Scanner;
 
 public class YrProxyServlet extends HttpServlet {
     @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
+    {
+        // From: http://stackoverflow.com/a/13800995/473672
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+    }
+
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException
     {
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "GET");
+
         // This should be something like: https://api.met.no/weatherapi/locationforecast/1.9/?lat=12;lon=34
         URL proxyUrl = new URL("https://api.met.no/weatherapi"
                 + req.getPathInfo()     // "/locationforecast/1.9/"
@@ -48,5 +59,5 @@ public class YrProxyServlet extends HttpServlet {
             String apiResponse = scanner.hasNext() ? scanner.next() : "";
             resp.getWriter().print(apiResponse);
         }
-    }
+   }
 }
