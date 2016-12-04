@@ -18,8 +18,8 @@
     <packaging>war</packaging>
     <version>1.0</version>
 
-    <groupId>com.google.appengine.demos</groupId>
-    <artifactId>appengine-try-java</artifactId>
+    <groupId>com.gmail.walles.johan.yr-api-proxy</groupId>
+    <artifactId>yr-api-proxy</artifactId>
 
     <!-- Parent POM defines common plugins and properties. -->
     <parent>

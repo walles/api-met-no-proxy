@@ -1,8 +1,8 @@
 {
-  "project_name": "Hello World - Java",
-  "project_description": "Starter code for a Google App Engine app in Java.",
+  "project_name": "yr.no API Proxy",
+  "project_description": "Proxy for api.met.no so that it can be used from Javascript",
   "show_files": [
-    "src/main/java/myapp/DemoServlet.java",
+    "src/main/java/myapp/YrProxyServlet.java",
     "build.xml",
     "pom.xml",
     "src/main/webapp/index.html",
@@ -11,5 +11,5 @@
     "src/main/webapp/WEB-INF/web.xml"
   ],
   "read_only_demo_url": "https://try-java-demo-dot-cloud-playground.appspot.com/",
-  "download_filename": "appengine-try-java.zip"
+  "download_filename": "yr-api-proxy.zip"
 }

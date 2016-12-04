@@ -1,18 +1,10 @@
 <!doctype html>
 <html>
-  <head>
-    <title>App Engine Demo</title>
+<head>
+    <title>YR API Proxy</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  </head>
-  <body>
-    <div id="result">Loading...</div>
-
-    <script>
-$(document).ready(function() {
-  $.getJSON('/demo', function(data) {
-    $('#result').html("Hello, " + data.name);
-  });
-});
-    </script>
-  </body>
+</head>
+<body>
+<p>Try <a href="/weatherapi/locationforecast/1.9/?lat=59.31895603;lon=18.05177629">the Weather API</a></p>
+</body>
 </html>
