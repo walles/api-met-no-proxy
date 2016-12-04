@@ -20,19 +20,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
 
 public class YrProxyServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException
     {
-        resp.setContentType("text/plain");
-
         // This should be something like: https://api.met.no/weatherapi/locationforecast/1.9/?lat=12;lon=34
-        String proxyUrl = "https://api.met.no/weatherapi"
+        URL proxyUrl = new URL("https://api.met.no/weatherapi"
                 + req.getPathInfo()     // "/locationforecast/1.9/"
                 + "?"
-                + req.getQueryString(); // "lat=59.31895603;lon=18.05177629"
-        resp.getWriter().println("{ \"proxy url\": \"" + proxyUrl + "\" }");
+                + req.getQueryString()); // "lat=59.31895603;lon=18.05177629"
+
+        HttpURLConnection urlConnection = (HttpURLConnection)proxyUrl.openConnection();
+        urlConnection.setConnectTimeout(1000);
+        urlConnection.setReadTimeout(1000);
+
+        try (InputStream inputStream = urlConnection.getInputStream()) {
+            resp.setStatus(urlConnection.getResponseCode());
+            resp.setContentType(urlConnection.getContentType());
+
+            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+            String apiResponse = scanner.hasNext() ? scanner.next() : "";
+            resp.getWriter().print(apiResponse);
+        }
     }
 }
