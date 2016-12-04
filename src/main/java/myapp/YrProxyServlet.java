@@ -22,10 +22,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class YrProxyServlet extends HttpServlet {
-  @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
-    resp.setContentType("text/plain");
-    resp.getWriter().println("{ \"name\": \"World\" }");
-  }
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException
+    {
+        resp.setContentType("text/plain");
+
+        // This should be something like: https://api.met.no/weatherapi/locationforecast/1.9/?lat=12;lon=34
+        String proxyUrl = "https://api.met.no/weatherapi"
+                + req.getPathInfo()     // "/locationforecast/1.9/"
+                + "?"
+                + req.getQueryString(); // "lat=59.31895603;lon=18.05177629"
+        resp.getWriter().println("{ \"proxy url\": \"" + proxyUrl + "\" }");
+    }
 }
