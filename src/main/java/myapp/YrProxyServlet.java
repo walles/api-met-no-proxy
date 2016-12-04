@@ -24,8 +24,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class YrProxyServlet extends HttpServlet {
+    private final static Logger LOGGER = Logger.getLogger(YrProxyServlet.class.getName());
+
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
     {
@@ -38,6 +41,10 @@ public class YrProxyServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException
     {
+        String referrer = req.getHeader("referer"); // Yes, with the legendary misspelling.
+        String remoteAddress = req.getRemoteAddr();
+        LOGGER.info("Proxying for <" + remoteAddress + ">, referrer: <" + referrer + ">...");
+
         resp.setHeader("Access-Control-Allow-Origin", "*");
         resp.setHeader("Access-Control-Allow-Methods", "GET");
 
