@@ -57,8 +57,8 @@ public class YrProxyServlet extends HttpServlet {
                 + req.getQueryString()); // "lat=59.31895603;lon=18.05177629"
 
         HttpURLConnection urlConnection = (HttpURLConnection)proxyUrl.openConnection();
-        urlConnection.setConnectTimeout(1000);
-        urlConnection.setReadTimeout(1000);
+        urlConnection.setConnectTimeout(5000);
+        urlConnection.setReadTimeout(5000);
 
         try (InputStream inputStream = urlConnection.getInputStream()) {
             resp.setStatus(urlConnection.getResponseCode());
