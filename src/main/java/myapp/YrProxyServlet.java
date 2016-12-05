@@ -66,6 +66,8 @@ public class YrProxyServlet extends HttpServlet {
         HttpURLConnection urlConnection = (HttpURLConnection)proxyUrl.openConnection();
         urlConnection.setConnectTimeout(5000);
         urlConnection.setReadTimeout(5000);
+        urlConnection.setRequestProperty("X-Forwarded-For", remoteAddress);
+        urlConnection.setRequestProperty("referer", remoteAddress);
 
         try (InputStream inputStream = urlConnection.getInputStream()) {
             resp.setStatus(urlConnection.getResponseCode());
