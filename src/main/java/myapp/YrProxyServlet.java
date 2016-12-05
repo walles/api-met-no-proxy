@@ -21,13 +21,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class YrProxyServlet extends HttpServlet {
     private final static Logger LOGGER = Logger.getLogger(YrProxyServlet.class.getName());
+
+    private final static int BUFFER_SIZE = 8192;
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
@@ -62,9 +64,12 @@ public class YrProxyServlet extends HttpServlet {
             resp.setStatus(urlConnection.getResponseCode());
             resp.setContentType(urlConnection.getContentType());
 
-            Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
-            String apiResponse = scanner.hasNext() ? scanner.next() : "";
-            resp.getWriter().print(apiResponse);
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int bytesRead;
+            OutputStream outputStream = resp.getOutputStream();
+            while ((bytesRead = inputStream.read(buffer)) > -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
         }
    }
 }
