@@ -31,12 +31,20 @@ public class YrProxyServlet extends HttpServlet {
 
     private final static int BUFFER_SIZE = 8192;
 
+    private void setResponseHeaders(HttpServletResponse response) {
+        // Allow use from Javascript
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET");
+
+        // Cache forecasts for half an hour, they are unlikely to change that much...
+        response.setHeader("Cache-Control", "public, max-age=1800");
+    }
+
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
     {
         // From: http://stackoverflow.com/a/13800995/473672
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        setResponseHeaders(resp);
     }
 
     @Override
@@ -47,8 +55,7 @@ public class YrProxyServlet extends HttpServlet {
         String remoteAddress = req.getRemoteAddr();
         LOGGER.info("Proxying for <" + remoteAddress + ">, referrer: <" + referrer + ">...");
 
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "GET");
+        setResponseHeaders(resp);
 
         // This should be something like: https://api.met.no/weatherapi/locationforecast/1.9/?lat=12;lon=34
         URL proxyUrl = new URL("https://api.met.no/weatherapi"
